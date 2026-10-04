@@ -358,6 +358,10 @@ export type CompanyEntry = z.infer<typeof logoCloudEntry>;
 
 export const logoCloudSchema = z
   .object({
+    // `ledger` is the bordered grid and the default; `marquee` is a single row
+    // of the same logos sliding sideways, which holds still for a visitor who
+    // has asked for reduced motion.
+    variant: z.enum(["ledger", "marquee"]).default("ledger"),
     eyebrow: z.string(),
     meta: z.string().optional(),
     // The grid is 2 columns, 3 at sm and 6 at lg, and every cell draws its own
@@ -370,7 +374,7 @@ export const logoCloudSchema = z
     logos: z.array(logoCloudEntry).min(6),
   })
   .describe(
-    "A bordered ledger of client logos under a small-caps label, with an optional note opposite it. Each entry is one of three shapes, mixable in any order: an image ({ src, alt }), a name with one of the five marks beside it ({ name, mark }), or a name on its own ({ name }) — a name is set as a wordmark in the ledger's own type, which varies by position so the grid reads as separate logos rather than one list. Marks: squares, diamond, chevron, grid, triangle. Use to signal adoption without making an argument — provide at least 6, ideally a multiple of 6, since anything else leaves a short final row.",
+    'A bordered ledger of client logos under a small-caps label, with an optional note opposite it. Each entry is one of three shapes, mixable in any order: an image ({ src, alt }), a name with one of the five marks beside it ({ name, mark }), or a name on its own ({ name }) — a name is set as a wordmark in the ledger\'s own type, which varies by position so the grid reads as separate logos rather than one list. Marks: squares, diamond, chevron, grid, triangle. Use to signal adoption without making an argument — provide at least 6, ideally a multiple of 6, since anything else leaves a short final row in the default `ledger` variant. `variant="marquee"` lays the same logos in one row that scrolls sideways instead of a grid, and any count works.',
   );
 export type LogoCloudProps = z.input<typeof logoCloudSchema>;
 
